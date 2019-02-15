@@ -12,10 +12,10 @@ namespace FarManager
     {
         static void Main(string[] args)
         {
-            Mode mode = Mode.DIR; //Choosing the mode to be used in the beginning
-            DirectoryInfo path = new DirectoryInfo(@"C:\Users\Daniyar\source\repos"); //allocates memory for class DirectoryInfo, in this case, it used to create path to the files
-            Stack<Layer> history = new Stack<Layer>(); //allocates memory for class Stack that stack instances of the same type in this case, it's class Layer
-            history.Push(   //Here we push on top of the 'history' stack a new instance of "Layer" that is filled information received from the path 
+            Mode mode = Mode.DIR;
+            DirectoryInfo path = new DirectoryInfo(@"C:\Users\Daniyar\source\repos");
+            Stack<Layer> history = new Stack<Layer>();
+            history.Push(
                     new Layer
                     {
                         Content = path.GetFileSystemInfos().ToList(),
@@ -28,20 +28,20 @@ namespace FarManager
             {
                 if (mode == Mode.DIR)
                 {
-                    history.Peek().Draw();  //when mode is DIR, top of stack is peeked, and then Draw function is called
+                    history.Peek().Draw();
                 }
-                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();  //Class of ConsoleKeyInfo is created that read keys from keyboard
-                switch (consoleKeyInfo.Key) //the process of switching between different cases
+                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+                switch (consoleKeyInfo.Key)
                 {
-                    case ConsoleKey.UpArrow:    //UpArrow key lets you move up the list of  files or directories
+                    case ConsoleKey.UpArrow:
                         history.Peek().Item--;
                         break;
 
-                    case ConsoleKey.DownArrow: //DownArraw key lets you move down the list of file or directories
+                    case ConsoleKey.DownArrow:
                         history.Peek().Item++;
                         break;
 
-                    case ConsoleKey.Backspace: //Backspace key lets you leave the file or direcotory
+                    case ConsoleKey.Backspace:
                         if (mode == Mode.DIR)
                         {
                             history.Pop();
@@ -53,9 +53,10 @@ namespace FarManager
                         }
                         break;
 
-                    case ConsoleKey.Enter:  //Enter key lets you enter inside of file or directory
-                        FileSystemInfo fileSystemInfo = history.Peek().Content[history.Peek().Item];  //Class of FileSystemInfo is created that peek through Content List with peeked item from stack
-                        if (fileSystemInfo.GetType() == typeof(DirectoryInfo)) //Check what type of FileSystemInfo is detected. If it is a directory it pass the first 'if' statement. If not,it will move to 'else' statement.
+                    case ConsoleKey.Enter:
+                        int x = history.Peek().Item;
+                        FileSystemInfo fileSystemInfo = history.Peek().Content[x];
+                        if (fileSystemInfo.GetType() == typeof(DirectoryInfo))
                         {
                             DirectoryInfo directoryInfo = fileSystemInfo as DirectoryInfo;
                             history.Push(
@@ -65,7 +66,7 @@ namespace FarManager
                                    Item = 0
                                });
                         }
-                        else //here file will go if it does not pass 'if' statement
+                        else
                         {
                             mode = Mode.FILE;
                             Console.BackgroundColor = ConsoleColor.White;
@@ -78,14 +79,14 @@ namespace FarManager
                         }
                         break;
 
-                   case ConsoleKey.Delete:  //Delete key lets you delete files or directories
+                   case ConsoleKey.Delete:
                         history.Peek().DeleteItem();
                         break;
 
-                   case ConsoleKey.F2:  //F2 key lets you rename directory or file
+                   case ConsoleKey.F2:
                         history.Peek().Rename(history.Peek().Content[history.Peek().Item]);
                         break;
-                    case ConsoleKey.Escape: //Escape key lets you close everything and exit console
+                    case ConsoleKey.Escape:
                         Environment.Exit(0);
                         break;
                    

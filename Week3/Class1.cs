@@ -9,7 +9,11 @@ namespace FarManager
 {
     class Layer
     {
-        private int item;
+        private int item; //selected item
+
+        /// <summary>
+        /// Constructor of int  Item that sets and gets items
+        /// </summary>
         public int Item
         {
             get
@@ -33,13 +37,18 @@ namespace FarManager
 
             }
         }
-        
+        /// <summary>
+        /// Function of class List that sets and gets objects of FileSystemInfo
+        /// </summary>
         public List<FileSystemInfo> Content
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Function that draws all the files in the console with the use of different colors
+        /// </summary>
         public void Draw()
         {
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -62,6 +71,9 @@ namespace FarManager
             }
         }
 
+        /// <summary>
+        /// function DeleteItem deletes selected item (Directory or File)
+        /// </summary>
         public void DeleteItem()
         {
             FileSystemInfo fsi = Content[Item];
@@ -77,6 +89,10 @@ namespace FarManager
             Item--;
         }
        
+        /// <summary>
+        /// Function that renames File or Directory
+        /// </summary>
+        /// <param name="fsi"></param>
         public void Rename(FileSystemInfo fsi)
         {
             if (fsi.GetType() == typeof(DirectoryInfo))
